@@ -34,7 +34,7 @@ chrome.webRequest.onBeforeRequest.addListener(
 chrome.webRequest.onBeforeSendHeaders.addListener(
     function(request) {
         for (var i = 0; i < request.requestHeaders.length; i++) { // check for modified request and don't block it
-            if (request.requestHeaders[i].name === ekernalHeader.name) { // this is the modified request, strip the ekernalHeader to make it seem normal
+            if (request.requestHeaders[i].name === redirectHeader.name) { // this is the modified request, strip the ekernalHeader to make it seem normal
                 request.requestHeaders.splice(i, 1);
                 return {cancel: false};
             }
@@ -44,17 +44,17 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
             return {cancel: false};
         }
 
-        var requestBody = replaceParameterValue(blockedRequests[request.requestId], 'body', function(full, key, value){ // create modified request body
-            if (value) {
-                return key + encodeURIComponent(properKerning(decodeURIComponent(value)));
-            }
-            return full;
-        });
+        // var requestBody = replaceParameterValue(blockedRequests[request.requestId], 'body', function(full, key, value){ // create modified request body
+        //     if (value) {
+        //         return key + encodeURIComponent(properKerning(decodeURIComponent(value)));
+        //     }
+        //     return full;
+        // });
 
         var newRequest = {
             'type': 'POST',
             'path': request.url,
-            'headers': request.requestHeaders.concat(ekernalHeader),
+            'headers': request.requestHeaders.concat(redirectHeader),
             'body': `(${encodeBody.toString()})(${JSON.stringify(requestBody)})`
         };
 
