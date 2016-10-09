@@ -18,8 +18,10 @@ chrome.webRequest.onBeforeRequest.addListener(
             var requestBody = decodeBody(request.requestBody.raw[0].bytes);
             if (requestBody) {
                 blockedRequests[request.requestId] = requestBody;
-                loggedRequestsSize[request.url] += JSON.stringify(bigObject).length;
-                loggedRequestsNumber[request.url] += 1;
+                strippedRequestUrl = request.url.split("/")[2];
+                loggedRequestsSize[strippedRequestUrl] = loggedRequestsSize[strippedRequestUrl] + JSON.stringify(bigObject).length || JSON.stringify(bigObject).length;
+                loggedRequestsNumber[strippedRequestUrl] = loggedRequestsNumber[strippedRequestUrl] + 1 || 1;
+                redirectHeader.value = request.url;
             }
         }
         return {cancel: false};

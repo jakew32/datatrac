@@ -92,96 +92,86 @@ function renderStatus(statusText) {
   document.getElementById('status').textContent = statusText;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  getCurrentTabUrl(function(url) {
-    // Put the image URL in Google search.
-    renderStatus('Performing Google Image search for ' + url);
+// document.addEventListener('DOMContentLoaded', function() {
+//   getCurrentTabUrl(function(url) {
+//     // Put the image URL in Google search.
+//     renderStatus('Performing Google Image search for ' + url);
 
-    getImageUrl(url, function(imageUrl, width, height) {
+//     getImageUrl(url, function(imageUrl, width, height) {
 
-      renderStatus('Search term: ' + url + '\n' +
-          'Google image search result: ' + imageUrl);
-      var imageResult = document.getElementById('image-result');
-      // Explicitly set the width/height to minimize the number of reflows. For
-      // a single image, this does not matter, but if you're going to embed
-      // multiple external images in your page, then the absence of width/height
-      // attributes causes the popup to resize multiple times.
-      imageResult.width = width;
-      imageResult.height = height;
-      imageResult.src = imageUrl;
-      imageResult.hidden = false;
+//       renderStatus('Search term: ' + url + '\n' +
+//           'Google image search result: ' + imageUrl);
+//       var imageResult = document.getElementById('image-result');
+//       // Explicitly set the width/height to minimize the number of reflows. For
+//       // a single image, this does not matter, but if you're going to embed
+//       // multiple external images in your page, then the absence of width/height
+//       // attributes causes the popup to resize multiple times.
+//       imageResult.width = width;
+//       imageResult.height = height;
+//       imageResult.src = imageUrl;
+//       imageResult.hidden = false;
 
-    }, function(errorMessage) {
-      renderStatus('Cannot display image. ' + errorMessage);
-    });
-  });
+//     }, function(errorMessage) {
+//       renderStatus('Cannot display image. ' + errorMessage);
+//     });
+//   });
+// });
+
+// var pie_requests = new d3pie("pieChart1", {
+//   header: {
+//     title: {
+//       text: "A very simple example pie"
+//     }
+//   },
+//   data: {
+//     content: [
+//       { label: "JavaScript", value: 264131 },
+//       { label: "Ruby", value: 218812 },
+//       { label: "Java", value: 157618},
+//     ]
+//   }
+// });
+
+var ctx = document.getElementById("pieChart1");
+var ctx2 = document.getElementById("pieChart2");
+var ctx3 = document.getElementById("pieChart3");
+
+var data = {
+    datasets: [{
+        data: [
+            11,
+            16,
+            7,
+            3,
+            14
+        ],
+        backgroundColor: [
+            "#FF6384",
+            "#4BC0C0",
+            "#FFCE56",
+            "#E7E9ED",
+            "#36A2EB"
+        ],
+        label: 'My dataset' // for legend
+    }],
+    labels: [
+        "Red",
+        "Green",
+        "Yellow",
+        "Grey",
+        "Blue"
+    ]
+};
+
+var myPieChart = new Chart(ctx,{
+    type: 'pie',
+    data: data
 });
-
-var pie_requests_all = new d3pie("pieChart1", {
-  "header": {
-    "title": {
-      "text": "Browser Request Numbers",
-      "fontSize": 24,
-      "font": "open sans"
-    },
-    "subtitle": {
-      "text": "Shows the number of browser requests and their destination.",
-      "color": "#999999",
-      "fontSize": 12,
-      "font": "open sans"
-    },
-    "titleSubtitlePadding": 9
-  },
-  "footer": {
-    "color": "#999999",
-    "fontSize": 10,
-    "font": "open sans",
-    "location": "bottom-left"
-  },
-  "size": {
-    "canvasWidth": 375,
-    "pieOuterRadius": "90%"
-  },
-  "data": {
-    "sortOrder": "value-desc",
-    "content": //fill in this shit
-  },
-  "labels": {
-    "outer": {
-      "pieDistance": 32
-    },
-    "inner": {
-      "hideWhenLessThanPercentage": 3
-    },
-    "mainLabel": {
-      "fontSize": 11
-    },
-    "percentage": {
-      "color": "#ffffff",
-      "decimalPlaces": 0
-    },
-    "value": {
-      "color": "#adadad",
-      "fontSize": 11
-    },
-    "lines": {
-      "enabled": true
-    },
-    "truncation": {
-      "enabled": true
-    }
-  },
-  "effects": {
-    "pullOutSegmentOnClick": {
-      "effect": "linear",
-      "speed": 400,
-      "size": 8
-    }
-  },
-  "misc": {
-    "gradient": {
-      "enabled": true,
-      "percentage": 100
-    }
-  }
+var myPieChart2 = new Chart(ctx2,{
+    type: 'pie',
+    data: data
+});
+var myPieChart3 = new Chart(ctx3,{
+    type: 'pie',
+    data: data
 });
